@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ThousandsOfCourses</string>
+    <string name="main_screen">Главная</string>
+    <string name="favorite_screen">Избранное</string>
+    <string name="account_screen">Аккаунт</string>
+    <string name="detail_screen">Информация о курсее</string>
+</resources>
