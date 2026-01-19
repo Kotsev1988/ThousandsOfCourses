@@ -98,11 +98,11 @@ fun AccountScreen() {
                                         )
                                     ),
                                     fontWeight = FontWeight.Medium,
-                                    fontSize = 14.sp, // Стандарт для Label Large
-                                    lineHeight = 20.sp, // Стандарт для Label Large
-                                    letterSpacing = 0.1.sp, // Стандарт для Label Large
+                                    fontSize = 14.sp,
+                                    lineHeight = 20.sp,
+                                    letterSpacing = 0.1.sp,
                                     platformStyle = PlatformTextStyle(
-                                        includeFontPadding = true // Аналог leading-trim: NONE
+                                        includeFontPadding = true
                                     )
                                 ),
                                 modifier = Modifier
@@ -140,11 +140,11 @@ fun AccountScreen() {
                                         )
                                     ),
                                     fontWeight = FontWeight.Medium,
-                                    fontSize = 14.sp, // Стандарт для Label Large
-                                    lineHeight = 20.sp, // Стандарт для Label Large
-                                    letterSpacing = 0.1.sp, // Стандарт для Label Large
+                                    fontSize = 14.sp,
+                                    lineHeight = 20.sp,
+                                    letterSpacing = 0.1.sp,
                                     platformStyle = PlatformTextStyle(
-                                        includeFontPadding = true // Аналог leading-trim: NONE
+                                        includeFontPadding = true
                                     )
                                 ),
                                 modifier = Modifier
@@ -182,11 +182,11 @@ fun AccountScreen() {
                                         )
                                     ),
                                     fontWeight = FontWeight.Medium,
-                                    fontSize = 14.sp, // Стандарт для Label Large
-                                    lineHeight = 20.sp, // Стандарт для Label Large
-                                    letterSpacing = 0.1.sp, // Стандарт для Label Large
+                                    fontSize = 14.sp,
+                                    lineHeight = 20.sp,
+                                    letterSpacing = 0.1.sp,
                                     platformStyle = PlatformTextStyle(
-                                        includeFontPadding = true // Аналог leading-trim: NONE
+                                        includeFontPadding = true
                                     )
                                 ),
                                 modifier = Modifier
