@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredWidth
@@ -23,12 +24,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -40,6 +43,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import you.today.api.models.Course
 import you.today.main.R
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 @Composable
 fun CoursesScreen(
@@ -48,6 +54,8 @@ fun CoursesScreen(
     navigation: NavController,
     viewModel: MainViewModel,
 ) {
+
+    val displayDate = remember(content.publishDate) { content.publishDate.toNeededFormat() }
     Card(
         modifier = modifier
             .padding(4.dp)
@@ -96,6 +104,63 @@ fun CoursesScreen(
                             contentDescription = "bookmark",
                             tint = if (content.hasLike) Color(0xFF12B956) else Color.Unspecified
                         )
+                    }
+
+
+                    Row(
+                        modifier = Modifier
+                            .align(Alignment.BottomStart)
+                            .padding(top = 4.dp, start = 6.dp, bottom = 4.dp, end = 6.dp),
+                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .height(22.dp)
+                                .clip(RoundedCornerShape(20.dp))
+                                .background(Color(0x4D32333A))
+                                .padding(horizontal = 6.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        )
+                        {
+                            androidx.compose.material.Icon(
+                                modifier = Modifier.padding(start = 4.dp),
+                                painter = painterResource(R.drawable.star_fill),
+                                contentDescription = "star",
+                                tint = Color(0xFF12B956)
+                            )
+                            Text(
+                                modifier = Modifier.padding(4.dp),
+                                text = content.rate.toString(),
+                                color = Color(0xFFF2F2F3),
+                                fontFamily = FontFamily.Default,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 12.sp,
+                                lineHeight = 14.sp,
+                                letterSpacing = 0.4.sp
+                            )
+                        }
+
+                        Box(
+                            modifier = Modifier
+                                .height(22.dp)
+                                .clip(RoundedCornerShape(20.dp))
+                                .background(color = Color(0x4D32333A))
+                                .padding(horizontal = 8.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = displayDate,
+                                modifier = Modifier.padding(4.dp),
+                                color = Color(0xFFF2F2F3),
+                                fontFamily = FontFamily.Default,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 12.sp,
+                                lineHeight = 14.sp,
+                                letterSpacing = 0.4.sp
+                            )
+                        }
                     }
                 }
             }
@@ -175,5 +240,15 @@ fun CoursesScreen(
                 }
             }
         }
+    }
+}
+
+fun String.toNeededFormat(): String {
+    return try {
+        val date = LocalDate.parse(this)
+        val formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale("ru"))
+        date.format(formatter)
+    }catch (e: Exception){
+        this
     }
 }

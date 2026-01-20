@@ -28,6 +28,7 @@ import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,6 +44,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import you.today.detail.R
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 @Composable
 fun DetailScreen(
@@ -52,10 +56,13 @@ fun DetailScreen(
     val viewModel: DetailsViewModel = hiltViewModel()
     val contentState = viewModel.detailState
 
+
     Surface(color = Color.Black) {
         when (contentState) {
             is DetailAppState.OnSuccessContents -> {
                 val scrollState = rememberScrollState()
+                val displayDate =
+                    remember(contentState.publishedDate) { contentState.publishedDate.toNeededFormat() }
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -110,6 +117,62 @@ fun DetailScreen(
                                     imageVector = if (contentState.hasLike) Icons.Filled.Bookmark else Icons.Outlined.BookmarkBorder,
                                     contentDescription = "backIcon",
                                     tint = if (contentState.hasLike) Color(0xFF12B956) else Color.Unspecified
+                                )
+                            }
+                        }
+
+                        Row(
+                            modifier = Modifier
+                                .align(Alignment.BottomStart)
+                                .padding(top = 4.dp, start = 6.dp, bottom = 4.dp, end = 6.dp),
+                            horizontalArrangement = Arrangement.spacedBy(6.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .height(22.dp)
+                                    .clip(RoundedCornerShape(20.dp))
+                                    .background(Color(0x4D32333A))
+                                    .padding(horizontal = 6.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
+                            )
+                            {
+                                Icon(
+                                    modifier = Modifier.padding(start = 4.dp),
+                                    painter = painterResource(R.drawable.star_fill),
+                                    contentDescription = "star",
+                                    tint = Color(0xFF12B956)
+                                )
+                                Text(
+                                    modifier = Modifier.padding(4.dp),
+                                    text = contentState.rate.toString(),
+                                    color = Color(0xFFF2F2F3),
+                                    fontFamily = FontFamily.Default,
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = 12.sp,
+                                    lineHeight = 14.sp,
+                                    letterSpacing = 0.4.sp
+                                )
+                            }
+
+                            Box(
+                                modifier = Modifier
+                                    .height(22.dp)
+                                    .clip(RoundedCornerShape(20.dp))
+                                    .background(color = Color(0x4D32333A))
+                                    .padding(horizontal = 8.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = displayDate,
+                                    modifier = Modifier.padding(4.dp),
+                                    color = Color(0xFFF2F2F3),
+                                    fontFamily = FontFamily.Default,
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = 12.sp,
+                                    lineHeight = 14.sp,
+                                    letterSpacing = 0.4.sp
                                 )
                             }
                         }
@@ -239,5 +302,15 @@ fun DetailScreen(
                 ErrorScreen(contentState.error)
             }
         }
+    }
+}
+
+fun String.toNeededFormat(): String {
+    return try {
+        val date = LocalDate.parse(this)
+        val formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale("ru"))
+        date.format(formatter)
+    } catch (e: Exception) {
+        this
     }
 }

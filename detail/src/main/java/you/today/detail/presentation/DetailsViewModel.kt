@@ -40,7 +40,8 @@ class DetailsViewModel @Inject constructor(
                                         title = course.title,
                                         publishedDate = course.publishDate,
                                         content = course.text,
-                                        hasLike = course.hasLike
+                                        hasLike = course.hasLike,
+                                        rate = course.rate.toString()
                                     )
                                 }
                             }
